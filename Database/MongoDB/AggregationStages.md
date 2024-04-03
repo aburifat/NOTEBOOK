@@ -43,6 +43,17 @@ A group key is often a field, or group of fields. The group key can also be the 
 ### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/
 
+## $limit
+Limits the number of documents passed to the next stage in the pipeline.
+
+### Syntex
+```javascript
+{ $limit: <positive 64-bit integer> }
+```
+
+### Reference
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/limit/
+
 ## $match
 Filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
 
@@ -54,3 +65,19 @@ Filters the documents to pass only the documents that match the specified condit
 ### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/
 
+## $sort
+Sorts all input documents and returns them to the pipeline in sorted order.
+
+### Syntex
+```javascript
+{ $sort: { <field1>: <sort order>, <field2>: <sort order> ... } }
+```
+```$sort``` takes a document that specifies the field(s) to sort by and the respective sort order. ```<sort order>``` can have one of the following values:
+
+|Value|Description|
+|---|---|
+|1|Sort ascending.|
+|-1|Sort descending.|
+
+### Reference
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/
