@@ -267,3 +267,28 @@
     }
 ]
 ```
+
+## 8. How many users have 'enim' as one of their tags?
+
+#### Solution
+```javascript
+[
+    {
+        $match: {
+            tags: "enim"
+        }
+    },
+    {
+        $count: 'userWithEnimTag'
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "userWithEnimTag": 62
+    }
+]
+```
