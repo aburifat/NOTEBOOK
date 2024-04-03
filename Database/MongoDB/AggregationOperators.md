@@ -1,5 +1,27 @@
 # Aggregation Operators
 
+## $all
+The ```$all``` operator selects the documents where the value of a field is an array that contains all the specified elements.
+
+#### Syntex
+```javascript
+{ <field>: { $all: [ <value1> , <value2> ... ] } }
+```
+
+#### Reference
+https://www.mongodb.com/docs/manual/reference/operator/query/all/
+
+## $arrayElemAt
+Returns the element at the specified array index.
+
+#### Syntext
+```javascript
+{ $arrayElemAt: [ <array>, <idx> ] }
+```
+
+#### Reference
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayElemAt/
+
 ## $avg
 Returns the average value of the numeric values. 
 ```$avg```
@@ -14,6 +36,17 @@ Returns the average value of the numeric values.
 
  #### Reference
  https://www.mongodb.com/docs/manual/reference/operator/aggregation/avg/
+
+ ## $first
+ Returns the result of an expression for the first document in a group of documents. Only meaningful when documents are in a defined order.
+
+ #### Syntex
+ ```javascript
+{ $first: <expression> }
+ ```
+
+ #### Reference
+ https://www.mongodb.com/docs/manual/reference/operator/aggregation/first/
 
  ## $ifNull
  The ```$ifNull``` expression evaluates input expressions for null values and returns:
@@ -36,6 +69,17 @@ Returns the average value of the numeric values.
 
 #### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/ifNull/
+
+## $push
+```$push``` returns an array of all values that result from applying an expression to documents.
+
+#### Syntex
+```javascript
+{ $push: <expression> }
+```
+
+#### Reference
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/push/
 
  ## $size
  Counts and returns the total number of items in an array.

@@ -54,6 +54,33 @@ Limits the number of documents passed to the next stage in the pipeline.
 #### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/limit/
 
+## $lookup
+Performs a left outer join to a collection in the same database to filter in documents from the "joined" collection for processing. The ```$lookup``` stage adds a new array field to each input document. The new array field contains the matching documents from the "joined" collection. The ```$lookup``` stage passes these reshaped documents to the next stage.
+
+#### Syntex
+```javascript
+{
+   $lookup:
+     {
+       from: <collection to join>,
+       localField: <field from the input documents>,
+       foreignField: <field from the documents of the "from" collection>,
+       as: <output array field>
+     }
+}
+```
+The ```$lookup``` takes a document with these fields:
+
+|Field|Description|
+|---|---|
+|from|Specifies the collection in the same database to perform the join with.|
+|localField|Specifies the field from the documents input to the ```$lookup``` stage.|
+|foreignField|Specifies the field from the documents in the from collection.|
+|as|Specifies the name of the new array field to add to the input documents.|
+
+#### Reference
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/
+
 ## $match
 Filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
 
