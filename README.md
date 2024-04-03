@@ -4,4 +4,4 @@
 - [Markdown in VS Code](https://code.visualstudio.com/docs/languages/markdown)
 
 ## Table of Content
-- [MongoDB](Database/MongoDB.md)
+- [MongoDB](Database/MongoDB/README.md)
