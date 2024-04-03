@@ -1,6 +1,9 @@
 # Aggregation Examples
 
-## Data Model (Users)
+## Data Model
+
+#### Users
+
 ```javascript
 [
     {
@@ -32,6 +35,33 @@
     ...
 ]
 ```
+
+#### Books
+```javascript
+[
+    {
+        "_id":1,
+        "title":"The Great Gatsby",
+        "author_id":100,
+        "genre":"Classic"
+    },
+    ...
+]
+```
+
+#### Authors
+```javascript
+[
+    {
+        "_id":100,
+        "name":"F. Scott Fitzgerald",
+        "birth_year":1896
+    },
+    ...
+]
+```
+
+## Problems
 
 ### 1. How many users are active?
 #### Solution
@@ -268,7 +298,7 @@
 ]
 ```
 
-## 8. How many users have 'enim' as one of their tags?
+### 8. How many users have 'enim' as one of their tags?
 
 #### Solution
 ```javascript
@@ -290,5 +320,263 @@
     {
         "userWithEnimTag": 62
     }
+]
+```
+
+### 9. What are the name and age of the users who are inactive and have 'velit' as a tag?
+
+#### Solution
+```javascript
+[
+    {
+        $match: {
+            isActive: false,
+            tags: "velit"
+        }
+    },
+    {
+        $project: {
+            name: 1,
+            age: 1
+        }
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "_id": {
+            "$oid": "660be4cee54e0a954da38ae7"
+        },
+        "name": "Aurelia Gonzales",
+        "age": 20
+    },
+    ...
+]
+```
+
+### 10. How many users have a phone number strating with "+1 (940)"?
+
+#### Solution
+```javascript
+[
+    {
+        $match: {
+            "company.phone": /^\+1 \(940\)/
+        }
+    },
+    {
+        $count: "userCount"
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "userCount": 5
+    }
+]
+```
+
+### 11. Name, Registration Time, FavouriteFruit of 4 users who has registered the most recently?
+
+#### Solution
+```javascript
+[
+    {
+        $sort: {
+            registered: -1
+        }
+    },
+    {
+        $limit: 4
+    },
+    {
+        $project: {
+            name: 1,
+            registered: 1,
+            favoriteFruit: 1
+        }
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "_id": {
+            "$oid": "660be4cee54e0a954da38da9"
+        },
+        "name": "Stephenson Griffith",
+        "registered": {
+            "$date": "2018-04-14T03:16:20.000Z"
+        },
+        "favoriteFruit": "apple"
+    },
+    ...
+]
+```
+
+### 12. Categorized users by their favourite fruit.
+
+#### Solution
+```javascript
+[
+    {
+        $group: {
+            _id: "$favoriteFruit",
+            users: {
+                $push: "$$ROOT" // Push entire object
+            }
+        }
+    }
+]
+```
+
+It's also possible to push name field only by replacing ```$$ROOT``` with ```$name```.
+
+#### Output
+```javascript
+[
+    {
+        _id: "apple",
+        users: [
+            {
+                // User Object
+            },
+            ...
+        ]
+    },
+    ...
+]
+```
+
+### 13. How many users have 'ad' as the second tag in their list if tags?
+
+#### Solution
+```javascript
+[
+    {
+        $match: {
+            "tags.1": "ad"
+        }
+    },
+    {
+        $count: "userCount"
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "userCount": 12
+    }
+]
+```
+
+### 14. Find user who have both 'enim' and 'id' as their tags.
+
+#### Solution
+```javascript
+[
+    {
+        $match: {
+            tags: {
+                $all: ['enim', 'id']
+            }
+        }
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        // User Object having both 'enim' and 'id' in tags
+    },
+    ...
+]
+```
+
+### 15. List all the companies located in the USA with their corresponding user count.
+
+#### Solution
+```javascript
+[
+    {
+        $match: {
+            "company.location.country": "USA"
+        }
+    },
+    {
+        $group: {
+            _id: "$company.title",
+            count: {
+                $sum: 1
+            }
+        }
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "_id": "HOUSEDOWN",
+        "count": 1
+    },
+    ...
+]
+```
+
+### 16. Lookup Example (Books, Authors)
+
+#### Solution
+```javascript
+[
+    {
+        $lookup: {
+            from: "authors",
+            localField: "author_id",
+            foreignField: "_id",
+            as: "author_details"
+        }
+    },
+    {
+        $addFields: {
+            author_details: {
+                $arrayElemAt: ["$author_details", 0]
+            }
+        }
+    }
+]
+```
+
+```$arrayElemAt: ["$author_details", 0]``` can be replaced with ```$first: "$author_details"```
+
+#### Output
+```javascript
+[
+    {
+        "_id": 1,
+        "title": "The Great Gatsby",
+        "author_id": 100,
+        "genre": "Classic",
+        "author_details": {
+            "birth_year": 1896,
+            "_id": 100,
+            "name": "F. Scott Fitzgerald"
+        }
+    },
+    ...
 ]
 ```
