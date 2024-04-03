@@ -1,6 +1,7 @@
 # Personal Notebook
 ## Quick Links
+- [Markdown Documentation](https://www.markdownguide.org/)
 - [Markdown in VS Code](https://code.visualstudio.com/docs/languages/markdown)
 
 ## Table of Content
-1. [MongoDB](Database/MongoDB.md)
+- [MongoDB](Database/MongoDB.md)
