@@ -3,24 +3,24 @@
 ## $addFields
 Adds new fields to documents. $addFields outputs documents that contain all existing fields from the input documents and newly added fields.
 
-### Syntex
+#### Syntex
 ```javascript
 { $addFields: { <newField>: <expression>, ... } }
 ```
 
-### Reference
+#### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/addFields/
 
 ## $count
 Passes a document to the next stage that contains a count of the number of documents input to the stage.
 
-### Syntex
+#### Syntex
 ```javascript
 { $count: <string> }
 ```
 ```<string>``` is the name of the output field which has the count as its value. ```<string>``` must be a non-empty string, must not start with $ and must not contain the . character.
 
-### Reference
+#### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/count/
 
 ## $group
@@ -28,7 +28,7 @@ The $group stage separates documents into groups according to a "group key". The
 
 A group key is often a field, or group of fields. The group key can also be the result of an expression. Use the _id field in the $group pipeline stage to set the group key. 
 
-### Syntex
+#### Syntex
 ```javascript
 {
  $group:
@@ -40,35 +40,35 @@ A group key is often a field, or group of fields. The group key can also be the 
 }
 ```
 
-### Reference
+#### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/
 
 ## $limit
 Limits the number of documents passed to the next stage in the pipeline.
 
-### Syntex
+#### Syntex
 ```javascript
 { $limit: <positive 64-bit integer> }
 ```
 
-### Reference
+#### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/limit/
 
 ## $match
 Filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
 
-### Syntex
+#### Syntex
 ```javascript
 { $match: { <query> } }
 ```
 
-### Reference
+#### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/
 
 ## $sort
 Sorts all input documents and returns them to the pipeline in sorted order.
 
-### Syntex
+#### Syntex
 ```javascript
 { $sort: { <field1>: <sort order>, <field2>: <sort order> ... } }
 ```
@@ -79,5 +79,5 @@ Sorts all input documents and returns them to the pipeline in sorted order.
 |1|Sort ascending.|
 |-1|Sort descending.|
 
-### Reference
+#### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/

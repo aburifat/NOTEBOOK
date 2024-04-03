@@ -5,7 +5,7 @@ Returns the average value of the numeric values.
 ```$avg```
  ignores non-numeric values.
 
- ### Syntex
+ #### Syntex
  When used in the ```$bucket```, ```$bucketAuto```, ```$group```, and ```$setWindowFields``` stages, 
 ```$avg```
  has this syntax:
@@ -14,7 +14,7 @@ Returns the average value of the numeric values.
 { $avg: <expression> }
  ```
 
- ### Reference
+ #### Reference
  https://www.mongodb.com/docs/manual/reference/operator/aggregation/avg/
 
  ## $sum
@@ -22,7 +22,7 @@ Returns the average value of the numeric values.
 ```$sum```
  ignores non-numeric values.
 
- ### Syntex
+ #### Syntex
  When used as an accumulator, 
 ```$sum```
  has this syntax:
@@ -31,5 +31,5 @@ Returns the average value of the numeric values.
 { $sum: <expression> }
  ```
 
- ### Reference
+ #### Reference
  https://www.mongodb.com/docs/manual/reference/operator/aggregation/sum/

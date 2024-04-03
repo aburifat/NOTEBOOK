@@ -34,7 +34,7 @@
 ```
 
 ### 1. How many users are active?
-Solution
+#### Solution
 ```javascript
 [
     {
@@ -47,7 +47,7 @@ Solution
     }
 ]
 ```
-Output
+#### Output
 ```javascript
 {
   "activeUser": 516
@@ -55,7 +55,7 @@ Output
 ```
 
 ### 2. What is the average age of all users?
-Solution
+#### Solution
 ```javascript
 [
     {
@@ -68,7 +68,7 @@ Solution
     }
 ]
 ```
-Output
+#### Output
 ```javascript
 {
   "_id": null,
@@ -77,7 +77,7 @@ Output
 ```
 
 ### 3. List top 2 most common favourite fruits among users
-Solution
+#### Solution
 ```javascript
 [
     {
@@ -99,7 +99,7 @@ Solution
 ]
 ```
 
-Output
+#### Output
 ```javascript
 [
     {
