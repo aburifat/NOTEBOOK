@@ -81,3 +81,16 @@ Sorts all input documents and returns them to the pipeline in sorted order.
 
 #### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/
+
+## $unwind
+Deconstructs an array field from the input documents to output a document for each element. Each output document is the input document with the value of the array field replaced by the element.
+
+#### Syntex
+```javascript
+{ $unwind: <field path> }
+```
+When you specify the field path, prefix the field name with a dollar sign $ and enclose in quotes.
+
+#### Reference
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/
+

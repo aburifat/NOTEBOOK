@@ -70,13 +70,16 @@
 ```
 #### Output
 ```javascript
-{
-  "_id": null,
-  "averageAge": 29.835
-}
+[
+    {
+        "_id": null,
+        "averageAge": 29.835
+    }
+]
 ```
 
-### 3. List top 2 most common favourite fruits among users
+### 3. List top 2 most common favourite fruits among users.
+
 #### Solution
 ```javascript
 [
@@ -109,6 +112,158 @@
     {
         "_id": "apple",
         "count": 338
+    }
+]
+```
+
+### 4. Find total number of males and females.
+
+#### Solution
+```javascript
+[
+    {
+        $group: {
+            _id: "$gender",
+            count: {
+                $sum: 1
+            }
+        }
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "_id": "female",
+        "count": 507
+    },
+    {
+        "_id": "male",
+        "count": 493
+    }
+]
+```
+
+### 5. Which country has the height number of registered users?
+
+#### Solution
+```javascript
+[
+    {
+        $group: {
+            _id: "$company.location.country",
+            userCountryCount: {
+                $sum: 1
+            }
+        }
+    },
+    {
+        $sort: {
+            userCountryCount: -1
+        }
+    },
+    {
+        $limit: 1
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "_id": "Germany",
+        "userCountryCount": 261
+    }
+]
+```
+
+### 6. List all the eye colors present in the collection
+
+#### Solution
+```javascript
+[
+    {
+        $group: {
+            _id: "$eyeColor"
+        }
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "_id": "green"
+    },
+    {
+        "_id": "blue"
+    },
+    {
+        "_id": "brown"
+    }
+]
+```
+
+### 7. What is the average number of tags(Array) per user?
+
+#### Solution 1
+```javascript
+[
+    {
+        $unwind: "$tags"
+    },
+    {
+        $group: {
+            _id: "$_id",
+            numberOfTags: {
+                $sum: 1
+            }
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            avgNumberOfTags: {
+                $avg: "$numberOfTags"
+            }
+        }
+    }
+]
+```
+
+#### Solution 2
+```javascript
+[
+    {
+        $addFields: {
+            numberOfTags: {
+                $size: {
+                    $ifNull: ["$tags", []]
+                }
+            }
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            avgNumberOfTags: {
+                $avg: "$numberOfTags"
+            }
+        }
+    }
+]
+```
+
+#### Output
+```javascript
+[
+    {
+        "_id": null,
+        "avgNumberOfTags": 3.556
     }
 ]
 ```
