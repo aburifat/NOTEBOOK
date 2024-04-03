@@ -7,4 +7,6 @@
 - [Aggregation Video Playlist](https://www.youtube.com/playlist?list=PLRAV69dS1uWQ6CZCehxKy0rjkqhQ2Z88t)
 
 ## Table of Content
-- [Aggregation](Aggregation.md)
+- [Aggregation Stages](AggregationStages.md)
+- [Aggregation Operators](AggregationOperators.md)
+- [Aggregation Examples](AggregationExamples.md)
