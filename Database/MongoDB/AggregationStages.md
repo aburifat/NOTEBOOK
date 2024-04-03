@@ -65,6 +65,25 @@ Filters the documents to pass only the documents that match the specified condit
 #### Reference
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/
 
+## $project
+Passes along the documents with the requested fields to the next stage in the pipeline. The specified fields can be existing fields from the input documents or newly computed fields.
+
+#### Syntex
+```javascript
+{ $project: { <specification(s)> } }
+```
+The ```$project``` specifications have the following forms:
+
+|Form|Description|
+|---|---|
+|```<field>: <1 or true>```|Specifies the inclusion of a field. Non-zero integers are also treated as ```true```.|
+|```_id: <0 or false>```|Specifies the suppression of the _id field.|
+|```<field>: <expression>```|Adds a new field or resets the value of an existing field.|
+|```<field>: <0 or false>```|Specifies the exclusion of a field.|
+
+#### Reference
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/project/
+
 ## $sort
 Sorts all input documents and returns them to the pipeline in sorted order.
 
