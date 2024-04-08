@@ -514,3 +514,14 @@ export default function GlobalError({
 ### Handling Server Errors
 
 If an error is thrown inside a Server Component, Next.js will forward an ```Error``` object (stripped of sensitive error information in production) to the nearest ```error.ts``` file as the ```error``` prop.
+
+## Redirecting
+
+|API|Perpose|Where|Status Code|
+|---|---|---|---|
+|```redirect```|Redirect user after a mutation or event|Server Components, Server Actions, Route Handlers|307 (Temporary) or 303 (Server Action)|
+|```permanentRedirect```|Redirect user after a mutation or event|Server Components, Server Actions, Route Handlers|308 (Permanent)|
+|```useRouter```|Perform a client-side navigation|Event Handlers in Client Components|N/A|
+|```redirects in next.config.js```|Redirect an incoming request based on a path|```next.config.js``` file|307 (Temporary) or 308 (Permanent)|
+|```NextResponse.redirect```|Redirect an incoming request based on a condition|Middleware|Any|
+
