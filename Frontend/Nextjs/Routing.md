@@ -369,3 +369,67 @@ export function LocaleSwitcher() {
   )
 }
 ```
+
+## Loading UI and Streaming
+
+The special file ```loading.ts``` healps you create meaningful loading UI with React Suspense. With the convention, you can show an instant loading state froom the server while the content of a route segment loads. The new contect is automatically swapped in once rendering is complete.
+
+![Loading UI](../../images/loading-ui.jpg)
+
+### Instant Loading States
+
+An instant loading state is fallback UI that is shown immediately upon navigation. You can pre-render loading indicators such as skeletons and spinners, or a small but meaningful part of future screens such as a cover photo, title, etc. This helps users understand the app is responding and provides a better user experience.
+
+Create a loading state by adding a loading.js file inside a folder.
+
+![Instant Loading](../../images/loading-special-file.jpg)
+
+```tsx
+export default function Loading() {
+  // You can add any UI inside Loading, including a Skeleton.
+  return <LoadingSkeleton />
+}
+```
+
+In the same folder, ```loading.ts``` will be nested inside ```layout.ts```. It will automatically wrap the ```page.ts``` file and any children below in a ```<Suspense>``` boundary.
+
+![Loading verview](../../images/loading-overview.jpg)
+
+### Server Side Rendering (SSR)
+- First, all data for a given page is fetched on the server.
+- The server then render the HTML for the page.
+- The HTML, CSS, and JavaScript for the page is sent to the cllient.
+- A non-interactive user interface is shown using the generated HTML, and CSS.
+- Finally, React hydrates the use interface to make it interactive.
+
+### Rendering Terms
+- TTFB: Time TO First Byte.
+- FCP: First Contentful Paint.
+- TTI: Time To Interactive.
+
+### Streaming with Suspense
+
+In addition to loading.js, you can also manually create Suspense Boundaries for your own UI components. The App Router supports streaming with Suspense for both Node.js and Edge runtimes.
+
+```tsx
+import { Suspense } from 'react'
+import { PostFeed, Weather } from './Components'
+ 
+export default function Posts() {
+  return (
+    <section>
+      <Suspense fallback={<p>Loading feed...</p>}>
+        <PostFeed />
+      </Suspense>
+      <Suspense fallback={<p>Loading weather...</p>}>
+        <Weather />
+      </Suspense>
+    </section>
+  )
+}
+```
+
+Using Suspense benefits:
+- **Streaming Server Rendering**: Progressively rendering HTML from the server to the client.
+- **Selective Hydration**: React prioritizes what components to make interactive first based on user interaction.
+
