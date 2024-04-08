@@ -125,3 +125,46 @@ export default function RootLayout({
 
 By default, layouts in the folder hierarchy are nested, which means they wrap child layouts via their children prop. You can nest layouts by adding layout.js inside specific route segments (folders).
 
+## Templates
+
+- Mostly same as ```layout```.
+- Don't preserve state.
+- Create a new instance for each of their child on navigation.
+
+A template can be defined by exporting a default React component from a ```template.ts``` file. The component should accept a children prop.
+
+![Templates](../../images/template-special-file.jpg)
+
+```tsx
+export default function Template({ children }: { children: React.ReactNode }) {
+  return <div>{children}</div>
+}
+```
+
+In terms of nesting, template.js is rendered between a layout and its children. Here's a simplified output:
+
+```tsx
+<Layout>
+  {/* Note that the template is given a unique key. */}
+  <Template key={routeParam}>{children}</Template>
+</Layout>
+```
+
+## Metadata
+
+In the app directory, you can modify the <head> HTML elements such as title and meta using the Metadata APIs.
+
+Metadata can be defined by exporting a metadata object or generateMetadata function in a ```layout.ts``` or ```page.ts``` file.
+
+```tsx
+import { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'Next.js',
+}
+ 
+export default function Page() {
+  return '...'
+}
+```
+
