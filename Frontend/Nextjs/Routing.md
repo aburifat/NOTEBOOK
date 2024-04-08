@@ -433,3 +433,84 @@ Using Suspense benefits:
 - **Streaming Server Rendering**: Progressively rendering HTML from the server to the client.
 - **Selective Hydration**: React prioritizes what components to make interactive first based on user interaction.
 
+## Error Handling
+
+The ```error.ts``` file convention allows to gracefully handle unexpected runtime errors in nested routes.
+- Automatically wrap a route segment and its nested children in a React Error Boundary.
+- Create error UI tailored to specific segments using the file-system hierarchy to adjust granularity.
+- Isolate errors to affected segments while keeping the rest of the application functional.
+- Add functionality to attempt to recover from an error without a full page reload.
+
+Create error UI by adding an error.js file inside a route segment and exporting a React component:
+
+![Erro Handling](../../images/error-special-file.jpg)
+
+```tsx
+'use client' // Error components must be Client Components
+ 
+import { useEffect } from 'react'
+ 
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error)
+  }, [error])
+ 
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button
+        onClick={
+          // Attempt to recover by trying to re-render the segment
+          () => reset()
+        }
+      >
+        Try again
+      </button>
+    </div>
+  )
+}
+```
+
+![Error Overview](../../images/error-overview.jpg)
+
+![Error Component Hierarchy](../../images/nested-error-component-hierarchy.jpg)
+
+```error.ts``` boundaries do not catch errors thrown in ```layout.ts``` or ```template.ts``` components of the same segment. This intentional hierarchy keeps important UI that is shared between sibling routes (such as navigation) visible and functional when an error occurs.
+
+To handle errors within a specific layout or template, place an ```error.ts``` file in the layout's parent segment.
+
+To handle errors within the root layout or template, use a variation of ```error.ts``` called ```global-error.ts```.
+
+```global-error.ts``` must define its own ```<html>``` and ```<body>``` tags.
+
+```tsx
+'use client'
+ 
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return (
+    <html>
+      <body>
+        <h2>Something went wrong!</h2>
+        <button onClick={() => reset()}>Try again</button>
+      </body>
+    </html>
+  )
+}
+```
+
+### Handling Server Errors
+
+If an error is thrown inside a Server Component, Next.js will forward an ```Error``` object (stripped of sensitive error information in production) to the nearest ```error.ts``` file as the ```error``` prop.
