@@ -525,3 +525,148 @@ If an error is thrown inside a Server Component, Next.js will forward an ```Erro
 |```redirects in next.config.js```|Redirect an incoming request based on a path|```next.config.js``` file|307 (Temporary) or 308 (Permanent)|
 |```NextResponse.redirect```|Redirect an incoming request based on a condition|Middleware|Any|
 
+### ```redirect``` function
+
+```tsx
+'use server'
+ 
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+ 
+export async function createPost(id: string) {
+  try {
+    // Call database
+  } catch (error) {
+    // Handle errors
+  }
+ 
+  revalidatePath('/posts') // Update cached posts
+  redirect(`/post/${id}`) // Navigate to the new post page
+}
+```
+
+### ```permanentRedirect``` function
+
+```tsx
+'use server'
+ 
+import { permanentRedirect } from 'next/navigation'
+import { revalidateTag } from 'next/cache'
+ 
+export async function updateUsername(username: string, formData: FormData) {
+  try {
+    // Call database
+  } catch (error) {
+    // Handle errors
+  }
+ 
+  revalidateTag('username') // Update all references to the username
+  permanentRedirect(`/profile/${username}`) // Navigate to the new user profile
+}
+```
+
+### ```useRouter()``` hook
+
+```tsx
+'use client'
+ 
+import { useRouter } from 'next/navigation'
+ 
+export default function Page() {
+  const router = useRouter()
+ 
+  return (
+    <button type="button" onClick={() => router.push('/dashboard')}>
+      Dashboard
+    </button>
+  )
+}
+```
+
+### ```redirects``` in ```next.config.js```
+
+```redirects``` supports ```path```, ```header```, ```cookie```, and ```query matching```, giving you the flexibility to redirect users based on an incoming request.
+
+```tsx
+module.exports = {
+  async redirects() {
+    return [
+      // Basic redirect
+      {
+        source: '/about',
+        destination: '/',
+        permanent: true,
+      },
+      // Wildcard path matching
+      {
+        source: '/blog/:slug',
+        destination: '/news/:slug',
+        permanent: true,
+      },
+    ]
+  },
+}
+```
+
+### ```NextResponse.redirect``` in Middleware
+
+```tsx
+import { NextResponse, NextRequest } from 'next/server'
+import { authenticate } from 'auth-provider'
+ 
+export function middleware(request: NextRequest) {
+  const isAuthenticated = authenticate(request)
+ 
+  // If the user is authenticated, continue as normal
+  if (isAuthenticated) {
+    return NextResponse.next()
+  }
+ 
+  // Redirect to login page if not authenticated
+  return NextResponse.redirect(new URL('/login', request.url))
+}
+ 
+export const config = {
+  matcher: '/dashboard/:path*',
+}
+```
+
+#### Creating and storing a redirect map
+
+A redirect map is a list of redirects that you can store in a database (usually a key-value store) or JSON file.
+
+```tsx
+{
+  "/old": {
+    "destination": "/new",
+    "permanent": true
+  },
+  "/blog/post-old": {
+    "destination": "/blog/post-new",
+    "permanent": true
+  }
+}
+```
+
+## Route Groups
+
+In the app directory, nested folders are normally mapped to URL paths. However, you can mark a folder as a Route Group to prevent the folder from being included in the route's URL path. A route group can be created by wrapping a folder's name in parenthesis: ```(folderName)```
+
+### Organize routes without affecting the URL path
+
+![Route Group Organization](../../images/route-group-organisation.jpg)
+
+Even though routes inside ```(marketing)``` and ```(shop)``` share the same URL hierarchy, you can create a different layout for each group by adding a ```layout.ts``` file inside their folders.
+
+![Route Group Multiple Layouts](../../images/route-group-multiple-layouts.jpg)
+
+### Opting specific segments into a layout
+
+To opt specific routes into a layout, create a new route group (e.g. ```(shop)```) and move the routes that share the same layout into the group (e.g. ```account``` and ```cart```). The routes outside of the group will not share the layout (e.g. ```checkout```).
+
+![Route Group Opting Layouts](../../images/route-group-opt-in-layouts.jpg)
+
+### Creating multiple root layouts
+
+![Route Group Multiple Layouts](../../images/route-group-multiple-root-layouts.jpg)
+
